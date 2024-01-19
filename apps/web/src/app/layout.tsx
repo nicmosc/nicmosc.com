@@ -1,24 +1,33 @@
-import "./globals.css";
-import "@nicmosc/ui/styles.css";
+import './globals.css';
+import '@nicmosc/ui/styles.css';
 
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { UIProvider } from '@nicmosc/ui';
+import type { Metadata } from 'next';
+import { Urbanist } from 'next/font/google';
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Urbanist({ weight: ['300', '400', '500', '700'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "nicmosc",
-  description: "Personal website",
+  title: 'nicmosc',
+  description: 'Personal website',
 };
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={font.className}>
+        <UIProvider>
+          {children}
+          {modal}
+        </UIProvider>
+        <div id="modal-root" />
+      </body>
     </html>
   );
 }
