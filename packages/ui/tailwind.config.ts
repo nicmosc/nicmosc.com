@@ -16,7 +16,7 @@ const config: Pick<Config, 'prefix' | 'presets' | 'content' | 'plugins' | 'darkM
   presets: [sharedConfig],
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ['sunset'],
+    themes: ['sunset', 'corporate'],
   },
 };
 

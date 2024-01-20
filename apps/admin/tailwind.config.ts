@@ -1,11 +1,17 @@
 // tailwind config is required for editor support
 
-import type { Config } from "tailwindcss";
-import sharedConfig from "@nicmosc/config/tailwind.config";
+import sharedConfig from '@nicmosc/config/tailwind.config';
+import type { Config } from 'tailwindcss';
 
-const config: Pick<Config, "content" | "presets"> = {
-  content: ["./src/app/**/*.tsx"],
+// TODO find a way to not need to include daisy UI config for each app
+const config: Pick<Config, 'content' | 'presets' | 'plugins'> = {
+  content: [
+    './src/**/*.tsx',
+    '../../node_modules/daisyui/dist/**/*.js',
+    '../../node_modules/react-daisyui/dist/**/*.js',
+  ],
   presets: [sharedConfig],
+  plugins: [require('daisyui')],
 };
 
 export default config;
