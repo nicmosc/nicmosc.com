@@ -1,5 +1,4 @@
 'use client';
-
 import { Menu } from '@nicmosc/ui';
 import { cx } from 'class-variance-authority';
 import Link from 'next/link';

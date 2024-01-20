@@ -8,8 +8,10 @@ interface LoginButtonProps {
 
 export const LoginButton = ({ onClick }: LoginButtonProps) => {
   return (
-    <form action={onClick}>
-      <Button type="submit">Login</Button>
-    </form>
+    <div className="p-6 h-full flex justify-center items-center">
+      <form action={onClick}>
+        <Button type="submit">Login</Button>
+      </form>
+    </div>
   );
 };
