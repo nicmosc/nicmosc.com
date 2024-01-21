@@ -1,8 +1,10 @@
 import { prisma } from '@nicmosc/database';
 import { Button, Divider } from '@nicmosc/ui';
+import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 
 import { ProjectCard, ProjectModal } from '../../components';
+import { getGithubProjects } from './actions';
 
 export default async function Page({
   searchParams,
@@ -10,6 +12,7 @@ export default async function Page({
   searchParams: Record<string, string> | null | undefined;
 }) {
   const projects = await prisma.project.findMany();
+  const githubProjects = await getGithubProjects();
 
   const activeProjectId = searchParams?.activeId;
   const isModalShown = activeProjectId != null;
@@ -34,7 +37,15 @@ export default async function Page({
         ))}
       </div>
       {isModalShown && (
-        <ProjectModal mode={activeProject == null ? 'create' : 'edit'} project={activeProject} />
+        <ProjectModal
+          repositories={githubProjects ?? []}
+          mode={activeProject == null ? 'create' : 'edit'}
+          project={activeProject}
+          onClose={async () => {
+            'use server';
+            revalidatePath('/projects');
+          }}
+        />
       )}
     </div>
   );
