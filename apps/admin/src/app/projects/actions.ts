@@ -42,3 +42,27 @@ export const updateProject = async (data: Project) => {
     console.error(e);
   }
 };
+
+export const createProject = async (data: Omit<Project, 'id'>) => {
+  try {
+    const result = await prisma.project.create({
+      data,
+    });
+    return result;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const deleteProject = async (id: string) => {
+  try {
+    const result = await prisma.project.delete({
+      where: {
+        id,
+      },
+    });
+    return result;
+  } catch (e) {
+    console.error(e);
+  }
+};

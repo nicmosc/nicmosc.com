@@ -5,7 +5,12 @@ import { Button, Input, Modal, Select, Textarea } from '@nicmosc/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { GithubRepository, updateProject } from '../app/projects/actions';
+import {
+  createProject,
+  deleteProject,
+  GithubRepository,
+  updateProject,
+} from '../app/projects/actions';
 
 interface ProjectModalProps {
   mode: 'edit' | 'create';
@@ -24,12 +29,31 @@ export const ProjectModal = ({ project, mode, repositories, onClose }: ProjectMo
     router.back();
   };
 
+  const handleCreateProject = async () => {
+    const res = await createProject({
+      name: title,
+      description,
+    });
+    if (res != null) {
+      handleClose();
+      onClose();
+    }
+  };
+
   const handleUpdateProject = async () => {
     const res = await updateProject({
       id: project?.id!,
       name: title,
       description,
     });
+    if (res != null) {
+      handleClose();
+      onClose();
+    }
+  };
+
+  const handleDeleteProject = async () => {
+    const res = await deleteProject(project?.id!);
     if (res != null) {
       handleClose();
       onClose();
@@ -70,12 +94,24 @@ export const ProjectModal = ({ project, mode, repositories, onClose }: ProjectMo
         />
       </Modal.Body>
       <Modal.Actions>
+        {mode === 'edit' && (
+          <Button color="error" onClick={handleDeleteProject}>
+            Delete
+          </Button>
+        )}
+        <div className="flex-1" />
         <Button variant="outline" onClick={handleClose}>
           Close
         </Button>
-        <Button color="primary" onClick={handleUpdateProject}>
-          Save
-        </Button>
+        {mode === 'create' ? (
+          <Button color="primary" onClick={handleCreateProject}>
+            Create
+          </Button>
+        ) : (
+          <Button color="primary" onClick={handleUpdateProject}>
+            Save
+          </Button>
+        )}
       </Modal.Actions>
     </Modal>
   );

@@ -10,6 +10,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+}
+
 model Project {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   name  String
