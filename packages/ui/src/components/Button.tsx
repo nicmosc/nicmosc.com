@@ -1,3 +1,3 @@
 'use client';
 
-export { Button } from 'react-daisyui';
+export { Button } from '@nextui-org/react';

@@ -3,7 +3,8 @@ import { Button, Divider } from '@nicmosc/ui';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 
-import { ProjectCard, ProjectModal } from '../../components';
+import { ProjectCard } from '../../components/ProjectCard';
+import { ProjectModal } from '../../components/ProjectModal';
 import { getGithubProjects } from './actions';
 
 export default async function Page({

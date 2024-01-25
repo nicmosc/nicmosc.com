@@ -1,3 +1,12 @@
+import { Button } from '@nicmosc/ui';
+
 export default async function Page() {
-  return <h1>Content</h1>;
+  return (
+    <div>
+      <Button color="primary">Hello</Button>
+      <Button size="lg" color="secondary">
+        Hello
+      </Button>
+    </div>
+  );
 }

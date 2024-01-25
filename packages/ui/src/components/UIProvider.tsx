@@ -1,15 +1,18 @@
 'use client';
 
+import { NextUIProvider } from '@nextui-org/react';
 import { PropsWithChildren } from 'react';
-import { Theme } from 'react-daisyui';
 
 export const UIProvider = ({
   children,
-  theme = 'sunset',
-}: PropsWithChildren & { theme?: 'sunset' | 'corporate' }) => {
+  theme = 'light',
+  navigate,
+}: PropsWithChildren & { theme?: 'dark' | 'light'; navigate: any }) => {
   return (
-    <Theme dataTheme={theme}>
-      <div className="ui-h-screen ui-bg-inherit">{children}</div>
-    </Theme>
+    <NextUIProvider navigate={navigate}>
+      <main className={`${theme} text-foreground bg-background`}>
+        <div className="ui-h-screen ui-bg-inherit">{children}</div>
+      </main>
+    </NextUIProvider>
   );
 };

@@ -1,15 +1,13 @@
-import './globals.css';
 import '@nicmosc/ui/styles.css';
+import '@nicmosc/ui/ui.css';
 
-import { UIProvider } from '@nicmosc/ui';
 import type { Metadata } from 'next';
-import { Urbanist } from 'next/font/google';
 
-import { LoginButton, Sidebar } from '../components';
+import { AppNavbar } from '../components/AppNavbar';
+import { AppProvider } from '../components/AppProvider';
+import { EmptyState } from '../components/EmptyState';
 import { handleLogin, handleLogout } from './actions';
 import { auth } from './auth';
-
-const font = Urbanist({ weight: ['300', '400', '500', '700'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'nicmosc | admin',
@@ -21,15 +19,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const isLoggedIn = session != null;
   return (
     <html lang="en">
-      <body className={font.className}>
-        <UIProvider theme="corporate">
-          <div className="flex h-full">
-            <Sidebar onLogout={handleLogout} isLoggedIn={isLoggedIn} />
+      <body>
+        <AppProvider>
+          <AppNavbar
+            isLoggedIn={isLoggedIn}
+            sessionUser={session?.user}
+            onLogout={handleLogout}
+            onLogin={handleLogin}
+          />
+          <div className="flex">
             <div className="flex-1">
-              {isLoggedIn ? children : <LoginButton onClick={handleLogin} />}
+              {isLoggedIn ? children : <EmptyState onClickCta={handleLogin} />}
             </div>
           </div>
-        </UIProvider>
+        </AppProvider>
       </body>
     </html>
   );
