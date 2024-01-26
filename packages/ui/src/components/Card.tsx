@@ -1,3 +1,1 @@
-'use client';
-
-export { Card } from 'react-daisyui';
+export { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';

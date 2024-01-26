@@ -1,3 +1,1 @@
-'use client';
-
-export { Input } from 'react-daisyui';
+export { Input } from '@nextui-org/react';

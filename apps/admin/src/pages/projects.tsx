@@ -1,21 +1,26 @@
 import { prisma } from '@nicmosc/database';
-import { Button, Divider } from '@nicmosc/ui';
-import { revalidatePath } from 'next/cache';
-import Link from 'next/link';
+import { Button, Link } from '@nicmosc/ui';
+import { InferGetServerSidePropsType } from 'next';
+import { useSearchParams } from 'next/navigation';
 
-import { ProjectCard } from '../../components/ProjectCard';
-import { ProjectModal } from '../../components/ProjectModal';
-import { getGithubProjects } from './actions';
+import { ProjectCard } from '../components/ProjectCard';
+import { ProjectModal } from '../components/ProjectModal';
+import { getGithubProjects } from '../lib';
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Record<string, string> | null | undefined;
-}) {
+export const getServerSideProps = async () => {
   const projects = await prisma.project.findMany();
   const githubProjects = await getGithubProjects();
 
-  const activeProjectId = searchParams?.activeId;
+  return { props: { projects, githubProjects } };
+};
+
+export default function Projects({
+  projects,
+  githubProjects,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const searchParams = useSearchParams();
+
+  const activeProjectId = searchParams.get('activeId');
   const isModalShown = activeProjectId != null;
 
   const activeProject = projects.find((project) => project.id === activeProjectId);
@@ -26,9 +31,6 @@ export default async function Page({
         <Link href="?activeId=new">
           <Button color="primary">+ Add new project</Button>
         </Link>
-      </div>
-      <div className="my-4">
-        <Divider />
       </div>
       <div className="grid grid-cols-5 gap-3">
         {projects.map((project) => (
@@ -42,10 +44,6 @@ export default async function Page({
           repositories={githubProjects ?? []}
           mode={activeProject == null ? 'create' : 'edit'}
           project={activeProject}
-          onClose={async () => {
-            'use server';
-            revalidatePath('/projects');
-          }}
         />
       )}
     </div>

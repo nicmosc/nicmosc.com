@@ -22,10 +22,5 @@ export const authOptions = {
   },
 };
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-  // @ts-ignore - next-auth being annoying with callback typings
-} = NextAuth(authOptions);
+// @ts-ignore
+export default NextAuth(authOptions);

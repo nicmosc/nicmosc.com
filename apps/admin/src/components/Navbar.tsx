@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Button,
   Dropdown,
@@ -7,27 +5,24 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Link,
-  Navbar,
+  Navbar as UINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   User,
 } from '@nicmosc/ui';
 import { usePathname } from 'next/navigation';
-import { User as SessionUser } from 'next-auth';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
-interface NavbarProps {
-  isLoggedIn?: boolean;
-  sessionUser?: SessionUser;
-  onLogout: VoidFunction;
-  onLogin: VoidFunction;
-}
-
-export const AppNavbar = ({ onLogout, isLoggedIn, sessionUser, onLogin }: NavbarProps) => {
+export const Navbar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const sessionUser = session?.user;
+  const isLoggedIn = session != null;
 
   return (
-    <Navbar maxWidth="full" isBordered>
+    <UINavbar maxWidth="full" isBordered>
       <NavbarBrand className="!flex-none mr-3">
         <p className="font-bold text-inherit">Dashboard</p>
       </NavbarBrand>
@@ -56,11 +51,7 @@ export const AppNavbar = ({ onLogout, isLoggedIn, sessionUser, onLogin }: Navbar
                 <User
                   className="hover:cursor-pointer"
                   name={sessionUser!.name}
-                  description={
-                    <Link href="#" size="sm">
-                      {sessionUser?.email}
-                    </Link>
-                  }
+                  description={<p className="text-primary text-sm">{sessionUser?.email}</p>}
                   avatarProps={{
                     src: sessionUser!.image!,
                   }}
@@ -69,7 +60,7 @@ export const AppNavbar = ({ onLogout, isLoggedIn, sessionUser, onLogin }: Navbar
               <DropdownMenu>
                 <DropdownItem
                   onClick={async () => {
-                    onLogout();
+                    signOut();
                   }}
                   key="delete"
                   className="text-danger"
@@ -81,7 +72,7 @@ export const AppNavbar = ({ onLogout, isLoggedIn, sessionUser, onLogin }: Navbar
           ) : (
             <Button
               onClick={async () => {
-                onLogin();
+                signIn();
               }}
               color="primary"
               variant="light">
@@ -90,6 +81,6 @@ export const AppNavbar = ({ onLogout, isLoggedIn, sessionUser, onLogin }: Navbar
           )}
         </NavbarItem>
       </NavbarContent>
-    </Navbar>
+    </UINavbar>
   );
 };

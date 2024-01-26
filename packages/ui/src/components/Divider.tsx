@@ -1,3 +1,1 @@
-'use client';
-
-export { Divider } from 'react-daisyui';
+export { Divider } from '@nextui-org/react';
