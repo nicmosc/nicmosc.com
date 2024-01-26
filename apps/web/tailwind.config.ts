@@ -7,11 +7,10 @@ import type { Config } from 'tailwindcss';
 const config: Pick<Config, 'content' | 'presets' | 'plugins'> = {
   content: [
     './src/app/**/*.tsx',
-    '../../node_modules/daisyui/dist/**/*.js',
-    '../../node_modules/react-daisyui/dist/**/*.js',
+    // '../../node_modules/daisyui/dist/**/*.js',
+    // '../../node_modules/react-daisyui/dist/**/*.js',
   ],
   presets: [sharedConfig],
-  plugins: [require('daisyui')],
 };
 
 export default config;

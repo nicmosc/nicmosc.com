@@ -1,3 +1,1 @@
-'use client';
-
-export { Select } from 'react-daisyui';
+export { Select, SelectItem, SelectSection } from '@nextui-org/react';

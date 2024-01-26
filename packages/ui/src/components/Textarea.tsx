@@ -1,3 +1,1 @@
-'use client';
-
-export { Textarea } from 'react-daisyui';
+export { Textarea } from '@nextui-org/react';
