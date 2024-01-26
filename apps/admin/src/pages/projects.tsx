@@ -1,5 +1,5 @@
 import { prisma } from '@nicmosc/database';
-import { Button, Divider, Link } from '@nicmosc/ui';
+import { Button, Link } from '@nicmosc/ui';
 import { InferGetServerSidePropsType } from 'next';
 import { useSearchParams } from 'next/navigation';
 

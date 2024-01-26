@@ -1,5 +1,3 @@
-'use client';
-
 import type { Project } from '@nicmosc/database';
 import { Button, Card, CardBody, CardFooter, CardHeader } from '@nicmosc/ui';
 import { useRouter } from 'next/router';
