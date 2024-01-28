@@ -1,6 +1,7 @@
 import { prisma } from '@nicmosc/database';
-import { Button, Link } from '@nicmosc/ui';
+import { Button } from '@nicmosc/ui';
 import { InferGetServerSidePropsType } from 'next';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import { ProjectCard } from '../components/ProjectCard';
@@ -28,7 +29,7 @@ export default function Projects({
   return (
     <div className="p-6">
       <div className="flex justify-end">
-        <Link href="?activeId=new">
+        <Link shallow href="?activeId=new">
           <Button color="primary">+ Add new project</Button>
         </Link>
       </div>

@@ -1,5 +1,6 @@
 import type { Project } from '@nicmosc/database';
 import {
+  Alert,
   Button,
   Input,
   Modal,
@@ -24,9 +25,26 @@ interface ProjectModalProps {
 
 export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps) => {
   const router = useRouter();
-  const [repository, setRepository] = useState('default');
+  const [repository, setRepository] = useState(
+    project?.githubId ? String(project?.githubId) : 'default',
+  );
   const [title, setTitle] = useState(project?.name ?? '');
   const [description, setDescription] = useState(project?.description ?? '');
+  const [imageUrl, setImageUrl] = useState(
+    'https://techcrunch.com/wp-content/uploads/2015/04/codecode.jpg?w=680',
+  );
+
+  console.log({ repository, repositories });
+
+  const [error, setError] = useState<string>();
+
+  const triggerAlert = (error: string) => {
+    setError(error);
+
+    setTimeout(() => {
+      setError(undefined);
+    }, 2000);
+  };
 
   const handleClose = () => {
     router.back();
@@ -41,10 +59,14 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
       body: JSON.stringify({
         name: title,
         description,
+        githubId: Number(repository),
+        imageUrl,
       }),
     });
     if (res.ok) {
       handleClose();
+    } else {
+      triggerAlert('Something went wrong');
     }
   };
 
@@ -57,6 +79,8 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
       body: JSON.stringify({
         name: title,
         description,
+        githubId: Number(repository),
+        imageUrl,
       }),
     });
     if (res.ok) {
@@ -81,23 +105,25 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
         </ModalHeader>
         <ModalBody>
           <Select
+            isRequired
             placeholder="Choose a repostitory to highlight"
-            value={repository}
+            selectedKeys={[repository]}
             onChange={(event) => setRepository(event.target.value)}>
             {repositories.map((repo) => (
-              <SelectItem key={repo.id} value={repo.name}>
+              <SelectItem key={repo.id} value={repo.id}>
                 {repo.name}
               </SelectItem>
             ))}
           </Select>
-
           <Input
+            isRequired
             label="Project name"
             className="w-full"
             value={title}
             onChange={(e: any) => setTitle(e.target.value)}
           />
           <Textarea
+            isRequired
             label="Project description"
             className="w-full"
             value={description}
@@ -125,6 +151,7 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
           )}
         </ModalFooter>
       </ModalContent>
+      {error && <Alert type="danger" content={error} />}
     </Modal>
   );
 };
