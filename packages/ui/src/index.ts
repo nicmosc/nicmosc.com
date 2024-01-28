@@ -5,6 +5,7 @@ export * from './components/CircularProgress';
 export * from './components/Divider';
 export * from './components/Dropdown';
 export * from './components/EmptyState';
+export * from './components/Image';
 export * from './components/Input';
 export * from './components/Link';
 export * from './components/Modal';
