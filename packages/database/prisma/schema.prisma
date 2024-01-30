@@ -16,9 +16,11 @@ model User {
 }
 
 model Project {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   githubId    Int
   imageUrl    String
+  draft       Boolean @default(true)
+  showInCv    Boolean @default(false)
 }

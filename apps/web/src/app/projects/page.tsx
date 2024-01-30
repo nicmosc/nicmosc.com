@@ -5,7 +5,12 @@ import { ProjectCard } from '../../components/ProjectCard';
 import { ProjectBreadcrumbs } from './_breadcrumbs';
 
 export default async function Page() {
-  const data = await prisma.project.findMany();
+  const data = await prisma.project.findMany({
+    where: {
+      draft: false,
+    },
+  });
+
   return (
     <main className="p-6">
       <ProjectBreadcrumbs />

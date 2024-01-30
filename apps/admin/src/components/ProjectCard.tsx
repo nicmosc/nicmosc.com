@@ -1,5 +1,5 @@
 import type { Project } from '@nicmosc/database';
-import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Image } from '@nicmosc/ui';
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Image } from '@nicmosc/ui';
 import { useRouter } from 'next/router';
 
 interface ProjectCardProps {
@@ -16,7 +16,10 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
       <CardBody className="overflow-visible">
         <Image alt="Card background" className="object-cover rounded-xl" src={project.imageUrl} />
       </CardBody>
-      <CardFooter className="justify-end">
+      <CardFooter className="justify-between">
+        <Chip size="sm" color={project.draft ? 'default' : 'success'}>
+          {project.draft ? 'Draft' : 'Published'}
+        </Chip>
         <Button variant="faded" onClick={() => router.push(`?activeId=${project.id}`)}>
           Edit
         </Button>

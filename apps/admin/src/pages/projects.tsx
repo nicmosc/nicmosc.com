@@ -28,7 +28,7 @@ export default function Projects({
 
   return (
     <div className="p-6">
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-6">
         <Link shallow href="?activeId=new">
           <Button color="primary">+ Add new project</Button>
         </Link>
