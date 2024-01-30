@@ -10,3 +10,6 @@ The project includes the following apps/packages:
 - `packages/database`: contains the wrapper around Prisma and a mongodb for the two apps to read/write
 - `packages/ui`: contains the shared UI components for all apps
 - `packages/config`: contains the shared config used by all packages/apps
+
+### Develompent
+Simply run `npm run dev` to launch all dev processes across the packages. Ensure all necessary env vars are set in the individual packages beforehand.

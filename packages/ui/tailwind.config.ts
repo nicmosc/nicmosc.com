@@ -7,8 +7,7 @@ const config: Pick<
   'prefix' | 'presets' | 'content' | 'plugins' | 'darkMode' | 'corePlugins'
 > = {
   darkMode: 'class',
-  content: ['./src/**/*.tsx'],
-  // prefix: 'ui-',
+  content: ['./src/**/*.tsx', '../../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'],
   presets: [sharedConfig],
   plugins: [
     nextui({
