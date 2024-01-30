@@ -26,7 +26,7 @@ export const Navbar = () => {
       <NavbarBrand className="!flex-none mr-3">
         <p className="font-bold text-inherit">Dashboard</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="start">
+      <NavbarContent className="sm:flex gap-4" justify="start">
         <NavbarItem isActive={pathname === '/projects'}>
           <Link color={pathname !== '/projects' ? 'foreground' : undefined} href="/projects">
             Projects

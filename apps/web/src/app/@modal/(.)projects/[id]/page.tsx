@@ -1,5 +1,6 @@
 import { prisma } from '@nicmosc/database';
 
+import { ProjectContent } from '../../../../components/ProjectContent';
 import { Modal } from './modal';
 
 export default async function ProjectModal({ params: { id } }: { params: { id: string } }) {
@@ -8,12 +9,12 @@ export default async function ProjectModal({ params: { id } }: { params: { id: s
       id: id,
     },
   });
+  if (!data) {
+    return null;
+  }
   return (
     <Modal>
-      <main className="flex flex-col items-center justify-center">
-        <h1 className="font-bold text-4xl mb-10">a single project: {data?.name}</h1>
-        <h2 className="font-bold text-2xl">{data?.description}</h2>
-      </main>
+      <ProjectContent project={data} />
     </Modal>
   );
 }
