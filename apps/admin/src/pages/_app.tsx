@@ -1,5 +1,5 @@
-// import '@nicmosc/ui/styles.css';
-import '../../styles.css';
+import '@nicmosc/ui/globals.css';
+import '@nicmosc/ui/styles.css';
 
 import { UIProvider } from '@nicmosc/ui';
 import { AppProps } from 'next/app';

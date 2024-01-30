@@ -2,6 +2,7 @@ import type { Project } from '@nicmosc/database';
 import {
   Alert,
   Button,
+  ImageUpload,
   Input,
   Modal,
   ModalBody,
@@ -17,6 +18,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import { useUploadFile } from '../hooks';
 import { GithubRepository } from '../lib';
 
 interface ProjectFormType {
@@ -35,18 +37,13 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps) => {
+  const [isUploading, setIsUploading] = useState(false);
+
   const router = useRouter();
-  // const [repository, setRepository] = useState(
-  //   project?.githubId ? String(project?.githubId) : undefined,
-  // );
-  // const [title, setTitle] = useState(project?.name ?? '');
-  // const [description, setDescription] = useState(project?.description ?? '');
-  // const [imageUrl, setImageUrl] = useState(
-  //   'https://techcrunch.com/wp-content/uploads/2015/04/codecode.jpg?w=680',
-  // );
-  const { register, handleSubmit, control } = useForm<ProjectFormType>({
+  const { upload } = useUploadFile();
+  const { setValue, watch, handleSubmit, control } = useForm<ProjectFormType>({
     defaultValues: {
-      imageUrl: 'https://techcrunch.com/wp-content/uploads/2015/04/codecode.jpg?w=680',
+      imageUrl: project?.imageUrl,
       repository: project?.githubId ? String(project.githubId) : undefined,
       title: project?.name,
       description: project?.description,
@@ -113,6 +110,18 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
     }
   };
 
+  const handleUploadImage = async (file: File) => {
+    setIsUploading(true);
+    const { url, error } = await upload(file);
+    setIsUploading(false);
+    if (error) {
+      setError(error);
+    } else {
+      console.log({ url });
+      setValue('imageUrl', url!);
+    }
+  };
+
   const handleDeleteProject = async () => {
     const res = await fetch(`/api/project/${project!.id}`, {
       method: 'DELETE',
@@ -123,14 +132,14 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
   };
 
   return (
-    <Modal isOpen onClose={handleClose}>
-      <ModalContent>
-        <ModalHeader className="font-bold">
-          {mode === 'create' ? 'Add new project' : `Edit ${project?.name}`}
-        </ModalHeader>
-        <form
-          id="project-form"
-          onSubmit={handleSubmit(mode === 'create' ? handleCreateProject : handleUpdateProject)}>
+    <form
+      id="project-form"
+      onSubmit={handleSubmit(mode === 'create' ? handleCreateProject : handleUpdateProject)}>
+      <Modal size="3xl" isOpen onClose={handleClose} scrollBehavior="inside">
+        <ModalContent>
+          <ModalHeader className="font-bold">
+            {mode === 'create' ? 'Add new project' : `Edit ${project?.name}`}
+          </ModalHeader>
           <ModalBody>
             <Controller
               name="repository"
@@ -169,6 +178,11 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
               )}
             />
 
+            <ImageUpload
+              onChange={handleUploadImage}
+              value={watch('imageUrl')}
+              isUploading={isUploading}
+            />
             <Controller
               name="isDraft"
               control={control}
@@ -188,29 +202,29 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
               )}
             />
           </ModalBody>
-        </form>
-        <ModalFooter>
-          {mode === 'edit' && (
-            <Button color="danger" onClick={handleDeleteProject}>
-              Delete
+          <ModalFooter>
+            {mode === 'edit' && (
+              <Button color="danger" onClick={handleDeleteProject}>
+                Delete
+              </Button>
+            )}
+            <div className="flex-1" />
+            <Button variant="bordered" onClick={handleClose}>
+              Close
             </Button>
-          )}
-          <div className="flex-1" />
-          <Button variant="bordered" onClick={handleClose}>
-            Close
-          </Button>
-          {mode === 'create' ? (
-            <Button color="primary" type="submit" form="project-form">
-              Create
-            </Button>
-          ) : (
-            <Button color="primary" type="submit" form="project-form">
-              Save
-            </Button>
-          )}
-        </ModalFooter>
-      </ModalContent>
-      {error && <Alert type="danger" content={error} />}
-    </Modal>
+            {mode === 'create' ? (
+              <Button color="primary" type="submit" form="project-form">
+                Create
+              </Button>
+            ) : (
+              <Button color="primary" type="submit" form="project-form">
+                Save
+              </Button>
+            )}
+          </ModalFooter>
+        </ModalContent>
+        {error && <Alert type="danger" content={error} />}
+      </Modal>
+    </form>
   );
 };

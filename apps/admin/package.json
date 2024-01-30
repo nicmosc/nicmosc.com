@@ -10,6 +10,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.502.0",
+    "@aws-sdk/lib-storage": "^3.502.0",
     "@nicmosc/config": "*",
     "@nicmosc/database": "*",
     "@nicmosc/ui": "*",

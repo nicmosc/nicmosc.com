@@ -6,13 +6,14 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
+    "./globals.css": "./src/globals.css",
     ".": "./src/index.ts"
   },
   "license": "MIT",
   "scripts": {
     "build": "tailwindcss -o dist/index.css",
     "lint": "eslint src/",
-    "dev": "npx tailwindcss -o ./dist/index.css --watch",
+    "dev": "tailwindcss -o ./dist/index.css --watch",
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {

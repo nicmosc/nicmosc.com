@@ -1,4 +1,5 @@
-import './globals.css';
+import '@nicmosc/ui/styles.css';
+import '@nicmosc/ui/globals.css';
 
 import { cx } from 'class-variance-authority';
 import type { Metadata } from 'next';
