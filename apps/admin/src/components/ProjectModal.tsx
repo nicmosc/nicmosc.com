@@ -26,7 +26,7 @@ interface ProjectModalProps {
 export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps) => {
   const router = useRouter();
   const [repository, setRepository] = useState(
-    project?.githubId ? String(project?.githubId) : 'default',
+    project?.githubId ? String(project?.githubId) : undefined,
   );
   const [title, setTitle] = useState(project?.name ?? '');
   const [description, setDescription] = useState(project?.description ?? '');
@@ -107,7 +107,7 @@ export const ProjectModal = ({ project, mode, repositories }: ProjectModalProps)
           <Select
             isRequired
             placeholder="Choose a repostitory to highlight"
-            selectedKeys={[repository]}
+            selectedKeys={repository && [repository]}
             onChange={(event) => setRepository(event.target.value)}>
             {repositories.map((repo) => (
               <SelectItem key={repo.id} value={repo.id}>

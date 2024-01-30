@@ -1,11 +1,22 @@
 import './globals.css';
-import '@nicmosc/ui/styles.css';
 
-import { UIProvider } from '@nicmosc/ui';
+import { cx } from 'class-variance-authority';
 import type { Metadata } from 'next';
-import { Urbanist } from 'next/font/google';
+import { Dela_Gothic_One, Nunito_Sans } from 'next/font/google';
 
-const font = Urbanist({ weight: ['300', '400', '500', '700'], subsets: ['latin'] });
+import { Navbar } from '../components/Navbar';
+import { AppProvider } from '../components/Provider';
+
+const primaryFont = Nunito_Sans({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-primary',
+});
+const secondaryFont = Dela_Gothic_One({
+  weight: ['400'],
+  subsets: ['latin'],
+  variable: '--font-secondary',
+});
 
 export const metadata: Metadata = {
   title: 'nicmosc',
@@ -21,12 +32,13 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={font.className}>
-        <UIProvider>
+      <body className={cx(primaryFont.className, primaryFont.variable, secondaryFont.variable)}>
+        <AppProvider>
+          <Navbar />
           {children}
           {modal}
-        </UIProvider>
-        <div id="modal-root" />
+          <div id="modal-root" />
+        </AppProvider>
       </body>
     </html>
   );

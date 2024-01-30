@@ -1,15 +1,17 @@
 import { NextUIProvider } from '@nextui-org/react';
+import { cx } from 'class-variance-authority';
 import { PropsWithChildren } from 'react';
 
 export const UIProvider = ({
   children,
   theme = 'light',
   navigate,
-}: PropsWithChildren & { theme?: 'dark' | 'light'; navigate: any }) => {
+  className,
+}: PropsWithChildren & { theme?: 'dark' | 'light'; navigate: any; className?: string }) => {
   return (
     <NextUIProvider navigate={navigate}>
       <main className={`${theme} text-foreground bg-background`}>
-        <div className="h-screen bg-inherit">{children}</div>
+        <div className={cx('bg-inherit min-h-screen', className)}>{children}</div>
       </main>
     </NextUIProvider>
   );

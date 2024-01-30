@@ -1,33 +1,41 @@
 'use client';
 
-import { Button, Modal as UIModal } from '@nicmosc/ui';
+import {
+  Button,
+  Modal as UIModal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from '@nicmosc/ui';
 import { useRouter } from 'next/navigation';
-import { type ElementRef, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 export const Modal = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const dialogRef = useRef<ElementRef<'dialog'>>(null);
 
   const onDismiss = () => {
     router.back();
   };
 
-  useEffect(() => {
-    if (!dialogRef.current?.open) {
-      dialogRef.current?.showModal();
-    }
-  }, []);
-
-  return createPortal(
-    <UIModal ref={dialogRef}>
-      <UIModal.Body>{children}</UIModal.Body>
-      <UIModal.Actions>
-        <form method="dialog">
-          <Button onClick={onDismiss}>Close</Button>
-        </form>
-      </UIModal.Actions>
-    </UIModal>,
-    document.getElementById('modal-root')!,
+  return (
+    <UIModal
+      defaultOpen
+      backdrop="blur"
+      onClose={onDismiss}
+      portalContainer={document.getElementById('modal-root')!}>
+      <ModalContent>
+        <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+        <ModalBody>{children}</ModalBody>
+        <ModalFooter className="justify-between">
+          <Button color="danger" variant="light" onPress={onDismiss}>
+            Close
+          </Button>
+          {/* TODO find another way to trigger this */}
+          <Button color="primary" onClick={() => window.location.reload()}>
+            View page
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </UIModal>
   );
 };

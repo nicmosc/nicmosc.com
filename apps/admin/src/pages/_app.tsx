@@ -1,4 +1,4 @@
-import '@nicmosc/ui/styles.css';
+// import '@nicmosc/ui/styles.css';
 import '../../styles.css';
 
 import { UIProvider } from '@nicmosc/ui';
