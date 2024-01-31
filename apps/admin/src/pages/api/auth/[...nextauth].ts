@@ -10,6 +10,7 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
+  secret: process.env.NODE_ENV === 'production' ? process.env.NEXTAUTH_SECRET : undefined,
   callbacks: {
     async signIn({ user }: { user: { email: string } }) {
       const isAllowedToSignIn = await prisma.user.findUnique({ where: { email: user.email } });

@@ -2,7 +2,7 @@
 
 App containing the private website to manage the content of `@nicmosc/web`.
 
-Authentication is done via Github credentials. To run the app you need to set the following env vars in a `env.local` file:
+Authentication is done via Github credentials. To run the app you need to set the following env vars in a `.env` file:
 ```bash
 # GITHUB AUTH
 GITHUB_ID=
