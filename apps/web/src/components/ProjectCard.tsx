@@ -3,6 +3,7 @@
 import { Project } from '@nicmosc/database';
 import { Button, Card, CardFooter, Image } from '@nicmosc/ui';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+import NextImage from 'next/image';
 import { MouseEvent } from 'react';
 
 interface ProjectCardProps {
@@ -44,6 +45,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         isFooterBlurred
         className="w-full h-[300px] col-span-12 sm:col-span-7">
         <Image
+          as={NextImage}
+          width={700}
+          height={700}
           removeWrapper
           alt="Relaxing app background"
           className="z-0 w-full h-full object-cover"

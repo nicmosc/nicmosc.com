@@ -6,8 +6,8 @@ export default async function awsUploader(req: NextApiRequest, res: NextApiRespo
   const S3Client = new S3({
     region: 'eu-west-1',
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY!,
-      secretAccessKey: process.env.AWS_SECRET_KEY!,
+      accessKeyId: process.env.S3_AWS_ACCESS_KEY!,
+      secretAccessKey: process.env.S3_AWS_SECRET_KEY!,
     },
   });
 
@@ -15,7 +15,7 @@ export default async function awsUploader(req: NextApiRequest, res: NextApiRespo
 
   try {
     const fileParams = {
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: process.env.S3_AWS_BUCKET_NAME!,
       Key: filename,
       ContentType: contentType,
     };

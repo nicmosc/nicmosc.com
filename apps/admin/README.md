@@ -13,9 +13,9 @@ NEXTAUTH_SECRET=
 NEXTAUTH_URL=
 
 # AWS
-AWS_ACCESS_KEY=
-AWS_SECRET_KEY=
-AWS_BUCKET_NAME=
+S3_AWS_ACCESS_KEY=
+S3_AWS_SECRET_KEY=
+S3_AWS_BUCKET_NAME=
 ```
 
 Open [http://localhost:3001](http://localhost:3001) with your browser to see it.
