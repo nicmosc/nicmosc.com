@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nicmosc</title>
+    <meta
+      name="description"
+      content="nic moscholios — staff frontend engineer at sortlist, based in brussels. frontend, devops, ai automation."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="https://nicmosc.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="nicmosc" />
+    <meta
+      property="og:description"
+      content="nic moscholios — staff frontend engineer at sortlist, based in brussels."
+    />
+    <meta property="og:url" content="https://nicmosc.com/" />
+    <meta property="og:image" content="https://nicmosc.com/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+
+    <script>
+      // Hide the static copy before first paint so scripted visitors never see
+      // it flash. If the app fails to boot, put it back rather than leaving a
+      // blank page.
+      document.documentElement.className = 'js';
+      setTimeout(function () {
+        if (document.documentElement.dataset.booted !== 'true') {
+          document.documentElement.className = '';
+        }
+      }, 3000);
+    </script>
+  </head>
+  <body>
+    <div class="frame">
+      <main id="stage" class="stage"></main>
+      <span id="hint" class="hint" aria-hidden="true">scroll</span>
+    </div>
+
+    <!--
+      Generated from src/content.ts at build time. This is what crawlers and
+      no-JS visitors read; the stage above replaces it once the app boots.
+    -->
+    <div id="content" class="content"><!--content--></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

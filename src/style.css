@@ -1,0 +1,226 @@
+:root {
+  --paper: #ffffff;
+  --ink: #0a0a0a;
+  --muted: rgba(10, 10, 10, 0.42);
+  --edge: clamp(1.25rem, 3vw, 2.5rem);
+  /* The only colour on the site, and it only exists under the pointer. */
+  --glitch-a: #00eaff;
+  --glitch-b: #ff003c;
+  --glitch-blend: multiply;
+  /* Radius of the spotlight that concentrates the fringing at the pointer. */
+  --gr: 95px;
+  --font: 'Geist Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0a0a0a;
+    --ink: #f5f5f5;
+    --muted: rgba(245, 245, 245, 0.42);
+    --glitch-blend: screen;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: clamp(0.8rem, 0.72rem + 0.35vw, 0.95rem);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100dvh;
+  padding: var(--edge);
+}
+
+/* The only thing on the page. */
+.stage {
+  width: 100%;
+  max-width: 48rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  min-height: 0;
+}
+
+.line {
+  color: inherit;
+  text-decoration: none;
+  font-size: clamp(1.35rem, 1rem + 3vw, 3.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: center;
+  max-width: 100%;
+  min-height: 1.15em;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.line--label,
+.line--note {
+  font-size: clamp(0.8rem, 0.72rem + 0.35vw, 0.95rem);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  min-height: 1em;
+}
+
+.line--label {
+  margin-bottom: 1.2em;
+}
+
+.line--note {
+  margin-top: 1.2em;
+}
+
+/* Article titles are prose, not headlines — they need their own scale. */
+.line--link {
+  font-size: clamp(1rem, 0.85rem + 0.9vw, 1.5rem);
+  letter-spacing: -0.005em;
+  color: var(--muted);
+  padding: 0.15em 0;
+}
+
+.line--link:hover,
+.line--link:focus-visible {
+  color: var(--ink);
+}
+
+.line--link:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 0.35em;
+}
+
+.line--empty {
+  min-height: 0;
+  margin: 0;
+}
+
+/*
+ * Two displaced copies of the line, blended over the original, then masked to
+ * a soft circle centred on the pointer so the aberration is strongest right
+ * where the cursor is and fades along the line. Nothing here runs until the
+ * pointer gets close: --gi sits at 0 and both layers are invisible.
+ * .line__text must not create its own stacking context, or the blend would
+ * have nothing but transparency to composite against.
+ */
+.line__text {
+  position: relative;
+  display: inline-block;
+}
+
+.line__text::before,
+.line__text::after {
+  content: attr(data-glitch);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--gi, 0);
+  mix-blend-mode: var(--glitch-blend);
+  --spot: radial-gradient(
+    circle var(--gr) at var(--mx, 50%) var(--my, 50%),
+    #000 0%,
+    rgba(0, 0, 0, 0.72) 55%,
+    transparent 100%
+  );
+  -webkit-mask-image: var(--spot);
+  mask-image: var(--spot);
+}
+
+.line__text::before {
+  color: var(--glitch-a);
+  transform: translate(calc(var(--gx, 0px) * -1), calc(var(--gy, 0px) * -1));
+  clip-path: var(--ga, inset(0));
+}
+
+.line__text::after {
+  color: var(--glitch-b);
+  transform: translate(var(--gx, 0px), var(--gy, 0px));
+  clip-path: var(--gb, inset(0));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line__text::before,
+  .line__text::after {
+    display: none;
+  }
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--edge);
+  transform: translateX(-50%);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * The static, indexable copy of the site. Visible by default so that a crawler
+ * or a visitor without scripting gets the real content, hidden the moment the
+ * app takes over.
+ */
+.content {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--edge);
+  line-height: 1.7;
+}
+
+.content a {
+  color: inherit;
+}
+
+.content h1 {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.content h2 {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 2.5rem;
+}
+
+.content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.js .content {
+  display: none;
+}
