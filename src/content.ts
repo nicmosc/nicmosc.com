@@ -29,7 +29,7 @@ export const STATES: State[] = [
     id: 'now',
     lines: [
       { text: 'currently', kind: 'label' },
-      { text: 'staff frontend engineer' },
+      { text: 'staff engineer' },
       { text: 'sortlist \u00b7 brussels', kind: 'note' },
     ],
   },
@@ -37,9 +37,9 @@ export const STATES: State[] = [
     id: 'craft',
     lines: [
       { text: 'what i know', kind: 'label' },
+      { text: 'platform' },
+      { text: 'agent engineering' },
       { text: 'frontend' },
-      { text: 'devops' },
-      { text: 'ai automation' },
     ],
   },
   {
@@ -75,6 +75,7 @@ export const STATES: State[] = [
         href: 'https://www.linkedin.com/in/nicolaosmoscholios/',
         hover: 'in/nicolaosmoscholios',
       },
+      { text: 'cv', href: '/cv/' },
     ],
   },
 ];
