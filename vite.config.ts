@@ -1,12 +1,9 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig, type Plugin } from 'vite';
 import { STATES, type State } from './src/content';
-
-const escape = (value: string): string =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+import { CV } from './src/cv/data';
+import { renderCv } from './src/cv/render';
+import { escape } from './src/html';
 
 /**
  * The stage is built by JavaScript, so on its own the served HTML would be an
@@ -49,9 +46,25 @@ function staticContent(): Plugin {
   };
 }
 
+function cvContent(): Plugin {
+  return {
+    name: 'cv-content',
+    transformIndexHtml(html) {
+      return html.replace('<!--cv-->', renderCv(CV));
+    },
+  };
+}
+
+const page = (path: string): string => fileURLToPath(new URL(path, import.meta.url));
+
 export default defineConfig({
   // Served from an apex custom domain, so assets stay at the root.
   base: '/',
-  plugins: [staticContent()],
-  build: { assetsInlineLimit: 0 },
+  plugins: [staticContent(), cvContent()],
+  build: {
+    assetsInlineLimit: 0,
+    rollupOptions: {
+      input: { main: page('./index.html'), cv: page('./cv/index.html') },
+    },
+  },
 });
