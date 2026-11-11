@@ -37,7 +37,7 @@ export const STATES: State[] = [
     id: 'craft',
     lines: [
       { text: 'what i know', kind: 'label' },
-      { text: 'platform' },
+      { text: 'devops' },
       { text: 'agent engineering' },
       { text: 'frontend' },
     ],
