@@ -45,7 +45,7 @@ class LineNode {
 
     if (line?.href) {
       this.root.href = line.href;
-      const external = !line.href.startsWith('mailto:');
+      const external = /^https?:\/\//.test(line.href);
       if (external) {
         this.root.target = '_blank';
         this.root.rel = 'noreferrer noopener';
